@@ -10,6 +10,8 @@ proxies = {
   'https': f'https://{USERNAME}:{PASSWORD}@unblock.oxylabs.io:60000',
 }
 
+SCRAPERAPI_KEY = '505e4a02aa851987b48f861bae7a59a3'
+
 # Leer headers desde archivo headers.txt en el formato especificado
 headers = {}
 with open('headers.txt', 'r') as h:
@@ -24,6 +26,7 @@ with open('headers.txt', 'r') as h:
         elif key:  # Línea sin ":". Se añade al valor del encabezado previo
             headers[key] += f' {line.strip()}'
 
+
 # Leer URLs desde archivo urls.txt
 with open('urls.txt', 'r') as u:
     urls = [url.strip() for url in u.readlines()]
@@ -31,9 +34,9 @@ with open('urls.txt', 'r') as u:
 # Iterar sobre las URLs y guardar cada respuesta en un archivo separado
 for i, url in enumerate(urls, start=1):
     response = requests.get(
-        url,
+        url=f"http://api.scraperapi.com/?api_key={SCRAPERAPI_KEY}&url={url}",
         headers=headers,
-        proxies=proxies,
+        # proxies=proxies,
         verify=False  # Ignorar el certificado SSL
     )
     
